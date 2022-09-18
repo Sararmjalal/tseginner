@@ -1,6 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+interface MyTodo {
+  inputValue: string,
+  todos: string[],
+  completed: string[]
+}
+
+const [todos, setTodos] = useState<MyTodo>({
+  inputValue: "",
+  todos: [],
+  completed: []
+})
+
+interface PropsMyTodo extends MyTodo {
+setTodos: React.Dispatch<React.SetStateAction<MyTodo>>
+}
 
 function App() {
   return (
