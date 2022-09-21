@@ -101,8 +101,8 @@ function App() {
   }
 
   return (
-    <div className='flex flex-col items-center sm:h-screen font-light m-6 sm:m-0'>
-      <div className="flex flex-wrap gap-6 sm:w-[50rem] sm:m-auto">
+    <div className='flex flex-col items-center md:h-screen font-light m-6 md:m-0'>
+      <div className="flex flex-wrap gap-6 md:w-[50rem] md:m-auto">
         <h1 className='w-full font-bold text-2xl'>Typescript Simple App</h1>
           <p className='w-full'>This is a simple to do list written in typescript.</p>
           <p className='text-sm font-medium text-red-600 -mb-[0.1rem]'>{data.inputValue.msg}</p>
@@ -118,7 +118,7 @@ function App() {
             onChange={(e) => setData({...data, inputValue: {value:e.target.value.trimStart(), msg: ""}})}
             placeholder='Type something...'
             className={`${data.inputValue.msg ? 'border-[1px] border-red-600' : ""} 
-            rounded-xl py-2 px-3 bg-gray-100 focus:bg-gray-200 outline-0 sm:w-[calc(50%-6.3rem)] w-[calc(100%-5.6rem)]`}
+            rounded-xl py-2 px-3 bg-blue-50 focus:bg-blue-100 outline-0 md:w-[calc(50%-6.3rem)] w-[calc(100%-5.6rem)]`}
             />
             <button
             className='bg-black text-white px-4 rounded-xl'
@@ -127,8 +127,8 @@ function App() {
               Add
           </button>
       </div>
-      <div className='sm:w-[calc(50%-20px)] w-full h-[30rem] rounded-2xl shadow-2xl shadow-blue-50 p-5 my-4
-        border-t-[1px] border-blue-50italic flex flex-col items-start gap-2 overflow-y-auto overflow-x-clip'>
+      <div className='md:w-[calc(50%-20px)] w-full h-[30rem] rounded-2xl shadow-2xl shadow-blue-50 p-5 my-4
+        border-t-[1px] border-blue-50 italic flex flex-col items-start gap-2 overflow-y-auto overflow-x-clip'>
           <h2 className='font-medium text-lg mb-2'>Goals for Today</h2>
           {
             data.toDos.map((item, index) =>
@@ -170,8 +170,8 @@ function App() {
                 )
           }
         </div>
-        <div className='sm:w-[calc(50%-20px)] w-full h-[30rem] rounded-2xl shadow-2xl shadow-blue-50 p-5 my-4
-        border-t-[1px] border-blue-50italic flex flex-col items-start gap-2 overflow-y-auto overflow-x-clip'>
+        <div className='md:w-[calc(50%-20px)] w-full h-[30rem] rounded-2xl shadow-2xl shadow-blue-50 p-5 my-4
+        border-t-[1px] border-blue-50 italic flex flex-col items-start gap-2 overflow-y-auto overflow-x-clip'>
           <h2 className='font-medium text-lg mb-2'>Goals Checked!</h2>
           {
             data.toDos.map((item, index) =>
@@ -213,7 +213,7 @@ function App() {
                 )
           }
         </div>
-        <div className='w-full sm:mb-0 mb-12'>
+        <div className='w-full md:mb-0 mb-12'>
           <div className='grid grid-cols-5 w-max gap-2 m-auto'>
             <ReactIconsBs.BsFillArrowLeftCircleFill
               className='text-2xl cursor-pointer'
