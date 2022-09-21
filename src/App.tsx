@@ -59,11 +59,9 @@ function App() {
 
   const remove  = (): void => {
 
-    const toRemove = data.toDos.filter(item => item.isSelected)
-    
-    const difference = data.toDos.filter(item => !toRemove.includes(item) );
-    
-    setData({ ...data, toDos: [...difference] })
+    const clone = data.toDos.filter(item => !item.isSelected)
+        
+    setData({ ...data, toDos: [...clone] })
 
   }
 
