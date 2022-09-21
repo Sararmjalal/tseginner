@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import ReactIconsBs from 'react-icons/bs/index'
+import { useState } from 'react';
+import ToDoHolder from './Components/ToDoHolder';
+import ReactIconsBs from 'react-icons/bs/index';
 
 interface ToDo {
   text: string
@@ -30,74 +31,54 @@ function App() {
 
   const add = (): void => {
 
-    if(!data.inputValue.value) return setData({...data,  inputValue: {value: "", msg: "Field cannot be empty!"}})
+    if (!data.inputValue.value) return setData({ ...data, inputValue: { value: "", msg: "Field cannot be empty!" } })
 
-    const clone = [...data.toDos]
-
-    const inputLength = data.inputValue.value.length
-
-    clone.push({
-      text: data.inputValue.value,
-      col: 1,
-      isSelected: false,
-      needsToGetShort: inputLength > 30
+    setData({
+      inputValue: { value: "", msg: "" },
+      toDos: [...data.toDos, {
+        text: data.inputValue.value,
+        col: 1,
+        isSelected: false,
+        needsToGetShort:  data.inputValue.value.length > 30
+      }]
     })
-
-    setData({ inputValue: {value: "", msg: ""}, toDos: [...clone] })
-
   }
 
   const select = (index: number): void => {
 
-    const clone = [...data.toDos]
+    const toDos = [...data.toDos]
 
-    clone[index].isSelected = !clone[index].isSelected
+    toDos[index].isSelected = !toDos[index].isSelected
 
-    setData({...data, toDos:[...clone]})
-    
+    setData({ ...data, toDos })
+
   }
 
-  const remove  = (): void => {
-
-    const clone = data.toDos.filter(item => !item.isSelected)
+  const remove = (): void => setData({ ...data, toDos: data.toDos.filter(item => !item.isSelected) })
         
-    setData({ ...data, toDos: [...clone] })
-
-  }
-
   const read = (index: number): void => {
 
-    const clone = [...data.toDos]
+    const toDos = [...data.toDos]
 
-    if(clone[index].needsToGetShort) clone[index].needsToGetShort = false
+    toDos[index].needsToGetShort = false
 
-    else clone[index].needsToGetShort = true
-
-    setData({...data, toDos:[...clone]})
+    setData({...data, toDos })
     
   }
 
-  const moveSelected = (col: number): void => {
+  const moveSelected = (col: number): void => setData({...data, toDos: data.toDos.reduce((acc: ToDo[], cur: ToDo): ToDo[] => (cur.isSelected ? [...acc, { ...cur, isSelected: false, col }] : [...acc, cur]), [])})
 
-    const clone = data.toDos.reduce((acc: ToDo[], cur: ToDo): ToDo[] => (cur.isSelected ? [...acc, { ...cur, isSelected: false, col }] : [...acc, cur]), []);
-    
-    setData({...data, toDos:[...clone]})
-
-  }
-
-  const moveAll = (col: number): void => {
-
-    const clone = [...data.toDos]
-
-    clone.forEach(item => {
-      item.isSelected = false
-      item.col = col
-    })
-
-     setData({...data, toDos:[...clone]})
-    
-  }
-
+  const moveAll = (col: number): void => 
+    setData({
+      ...data,
+      toDos: data.toDos.map(item => ({
+        ...item,
+        isSelected: false,
+        col
+      }
+    ))  
+  })
+  
   return (
     <div className='flex flex-col items-center md:h-screen font-light m-6 md:m-0'>
       <div className="flex flex-wrap gap-6 md:w-[50rem] md:m-auto">
@@ -129,86 +110,14 @@ function App() {
         border-t-[1px] border-blue-50 italic flex flex-col items-start gap-2 overflow-y-auto overflow-x-clip'>
           <h2 className='font-medium text-lg mb-2'>Goals for Today</h2>
           {
-            data.toDos.map((item, index) =>
-            item.col === 1 ?
-            (
-              <div className='flex w-full'>
-              <div>
-                {
-                  item.needsToGetShort ?
-                    <div className='flex gap-2 max-w-[18rem]'>
-                      <p>{item.text.slice(0, 25)}...</p>
-                      <button
-                        className='text-sm font-normal w-[5rem]'
-                        onClick={() => read(index)}
-                      >
-                        Read more
-                      </button>
-                    </div>
-                    :
-                    <p className='max-w-[18.1rem] mr-2'>{item.text}</p>
-               }
-              </div>
-              {
-                item.isSelected ?
-                  <ReactIconsBs.BsCheck2Circle
-                    onClick={() => select(index)}
-                    className='text-lg cursor-pointer mt-1'
-                  />
-                  :
-                  <ReactIconsBs.BsCircle
-                  onClick={() => select(index)}
-                  className='text-sm cursor-pointer mt-1.5'
-                  />
-              }
-            </div>
-                )
-                :
-                null
-                )
+            data.toDos.map((item, index) => item.col === 1 && (<ToDoHolder item={item} index={index} />))
           }
         </div>
         <div className='md:w-[calc(50%-20px)] w-full h-[30rem] rounded-2xl shadow-2xl shadow-blue-50 p-5 my-4
         border-t-[1px] border-blue-50 italic flex flex-col items-start gap-2 overflow-y-auto overflow-x-clip'>
           <h2 className='font-medium text-lg mb-2'>Goals Checked!</h2>
           {
-            data.toDos.map((item, index) =>
-            item.col === 2 ?
-            (
-               <div className='flex w-full'>
-                <div>
-                  {
-                    item.needsToGetShort ?
-                      <div className='flex gap-2 max-w-[18rem]'>
-                        <p>{item.text.slice(0, 25)}...</p>
-                        <button
-                          className='text-sm font-normal w-[5rem]'
-                          onClick={() => read(index)}
-                        >
-                          Read more
-                        </button>
-                      </div>
-                      :
-                      <p className='max-w-[18.1rem] mr-2'>{item.text}</p>
-                 }
-                </div>
-                {
-                  item.isSelected ?
-                    <ReactIconsBs.BsCheck2Circle
-                      onClick={() => select(index)}
-                      className='text-lg cursor-pointer mt-1'
-                    />
-                    :
-                    <ReactIconsBs.BsCircle
-                    onClick={() => select(index)}
-                    className='text-sm cursor-pointer mt-1.5'
-                    />
-                }
-              </div>
-                )
-                :
-                null
-                )
+            data.toDos.map((item, index) => item.col === 2 && (<ToDoHolder item={item} index={index} />))
           }
         </div>
         <div className='w-full md:mb-0 mb-12'>
