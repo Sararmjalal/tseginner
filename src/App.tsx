@@ -40,7 +40,7 @@ function App() {
       text: data.inputValue.value,
       col: 1,
       isSelected: false,
-      needsToGetShort: inputLength > 30 ? true : false
+      needsToGetShort: inputLength > 30
     })
 
     setData({ inputValue: {value: "", msg: ""}, toDos: [...clone] })
@@ -81,11 +81,9 @@ function App() {
 
   const moveSelected = (col: number): void => {
 
-    const clone = data.toDos.reduce((acc, cur): any => (cur.isSelected ?
-      [...acc, { ...cur, isSelected: false, col }] : [...acc, cur])
-    , [])
+    const clone = data.toDos.reduce((acc: ToDo[], cur: ToDo): ToDo[] => (cur.isSelected ? [...acc, { ...cur, isSelected: false, col }] : [...acc, cur]), []);
     
-     setData({...data, toDos:[...clone]})
+    setData({...data, toDos:[...clone]})
 
   }
 
